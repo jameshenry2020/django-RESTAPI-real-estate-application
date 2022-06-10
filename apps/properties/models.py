@@ -41,7 +41,7 @@ class Property(CommonUUIDModel):
     description = models.TextField(verbose_name= _("Property Description"), default="tell us about the property")
     ref_code = models.CharField(max_length=10, unique=True, verbose_name=_("Reference Code"), blank=True)
     postal_code = models.CharField(max_length=10, default="120003", verbose_name=_("Postal Code"))
-    price = models.DecimalField(max_digits=8, decimal_places=2, default=0.0)
+    price = models.DecimalField(max_digits=14, decimal_places=2, default=0.0)
     country = CountryField(verbose_name=_("Country"), default="NG", blank_label="(Select Country)" )
     city = models.CharField(max_length=200)
     street_address = models.CharField(max_length=255, verbose_name=_("Street Address"), default="allen avenue, LG.")
@@ -78,6 +78,7 @@ class Property(CommonUUIDModel):
     def save(self, *args, **kwargs):
         self.ref_code = "".join(random.choices(string.ascii_uppercase + string.digits, k=10))
         super(Property, self).save(*args, **kwargs)
+        
 
     @property
     def final_property_price(self):

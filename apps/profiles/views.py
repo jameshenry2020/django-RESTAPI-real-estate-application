@@ -1,13 +1,51 @@
 from multiprocessing import context
 from rest_framework import generics, permissions, status
 from uritemplate import partial
-from .serializers import ProfileSerializer, UpdateProfileSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .exceptions import ProfileNotFound, NotYourProfile
 from .renderers import ProfileJSONRenderer
-from .models import Profile
+from .models import HostAgent, Profile
+from .serializers import (ProfileSerializer,
+                          AgentCreateSerializer,
+                          AgentProfileSerializer,
+                          UpdateProfileSerializer
+                          )
+
 # Create your views here.
+
+
+class BecomeAnAgent(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def post(self, request):
+        data=request.data
+        agent=Profile.objects.get(user=request.user)
+        serializer=AgentCreateSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(profile=agent)
+            agent.is_agent=True
+            agent.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+class AgentListView(generics.ListAPIView):
+    serializer_class=AgentProfileSerializer
+    queryset= HostAgent.objects.all()
+
+
+
+class GetAgentProfileDetail(APIView):
+    serializer_class = AgentProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    renderer_classes = [ProfileJSONRenderer]
+    
+    def get(self, request, business_name):
+        agent = HostAgent.objects.get(brand_name=business_name)
+        serializer = self.serializer_class(agent, context={'request':request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 

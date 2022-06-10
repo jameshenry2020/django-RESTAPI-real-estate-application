@@ -8,7 +8,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/auth/', include("djoser.urls")),
     path('api/v1/auth/', include("djoser.urls.jwt")),
-    path('api/v1/profile/', include('apps.profiles.urls'))
+    path('api/v1/profile/', include('apps.profiles.urls')),
+    path('api/v1/property/', include('apps.properties.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

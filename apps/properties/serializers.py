@@ -12,6 +12,7 @@ class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
         fields = ['id',
+                  'slug',
                   'title',
                   'hosted_by',
                   'description',
@@ -29,6 +30,7 @@ class PropertySerializer(serializers.ModelSerializer):
                   'amenities',
                   'advert_type',
                   'property_type',
+                  'cover_photo',
                   'photo1',
                   'photo2',
                   'photo3',
@@ -38,15 +40,15 @@ class PropertySerializer(serializers.ModelSerializer):
                   'views']
 
     def get_hosted_by(self, obj):
-        return obj.hosted_by.get_full_name()
+        first_name= obj.hosted_by.first_name
+        last_name = obj.hosted_by.last_name
+        return f"{first_name} {last_name}"
 
 
 class PropertyCreateSerializer(serializers.ModelSerializer):
-    country = CountryField(name_only=True)
-
     class Meta:
         model = Property
-        exclude = ['pkid','views']
+        exclude = ['pkid', 'created_at','update_at','views', 'ref_code', 'hosted_by']
 
 
 class PropertyViewSerializer(serializers.ModelSerializer):

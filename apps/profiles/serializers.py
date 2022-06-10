@@ -1,8 +1,53 @@
+from dataclasses import field
 from rest_framework import serializers
 from django_countries.serializer_fields import CountryField
 from phonenumber_field.serializerfields import PhoneNumberField
-from .models import Profile
+from .models import Profile, HostAgent
 
+
+class AgentCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=HostAgent
+        fields = [ 'brand_name','license','office_address']
+
+
+
+
+class AgentProfileSerializer(serializers.ModelSerializer):  
+    first_name=serializers.CharField(source='agent.user.first_name')
+    last_name = serializers.CharField(source='agent.user.last_name')
+    email = serializers.EmailField(source='agent.user.email')
+    profile_img= serializers.ImageField(source='agent.profile_img')
+    full_name = serializers.SerializerMethodField(read_only=True)
+    phone = PhoneNumberField(source='agent.user.phone')
+    country = CountryField(name_only=True)
+
+    class Meta:
+        model=HostAgent
+        fields = [
+                 'brand_name',
+                  'license',
+                  'first_name',
+                  'last_name',
+                  'email',
+                  'full_name',
+                  'phone',
+                  'country',
+                  'gender',
+                  'about_me',
+                  'profile_img',
+                  'city',
+                  'office_address',
+                  'num_of_reviews'
+                  ]
+
+    def get_full_name(self, obj):
+        first_name = obj.agent.user.first_name.title()
+        last_name = obj.agent.user.last_name.title()
+        return f"{first_name} {last_name}"
+
+ 
 
 class ProfileSerializer(serializers.ModelSerializer):
     user_id=serializers.UUIDField(source='user.id')
@@ -39,7 +84,7 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['about_me','gender','profile_img','country','city','is_agent']
+        fields = ['about_me','gender','profile_img','country','city']
 
     
 
