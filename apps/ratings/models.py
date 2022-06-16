@@ -16,7 +16,7 @@ class Rating(CommonUUIDModel):
         Rating_5 = 5, _("Excellent")
 
     client = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User providing the Rating"), on_delete=models.SET_NULL, null=True)
-    agent=models.ForeignKey(HostAgent, verbose_name=_("Agent receiving the review"), on_delete=models.SET_NULL, null=True)
+    agent=models.ForeignKey(HostAgent, related_name="agent_reviewed", verbose_name=_("Agent receiving the review"), on_delete=models.SET_NULL, null=True)
     rating=models.IntegerField(verbose_name=_("Rating"), choices=RatingChoice.choices, default=0)
     comment=models.TextField(verbose_name=_("Comment"))
 
