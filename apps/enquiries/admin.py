@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import  EnquiryRequest
+
+from .models import EnquiryRequest
 
 # Register your models here.
 

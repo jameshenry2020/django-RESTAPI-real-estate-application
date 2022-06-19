@@ -1,10 +1,13 @@
-import environ
 from pathlib import Path
+from datetime import timedelta
+
+import environ
+import logging
+import logging.config
+
+from django.utils.log import DEFAULT_LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env=environ.Env(
@@ -55,7 +58,7 @@ LOCAL_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
-SITE_ID=1
+SITE_ID = 1
 
 
 
@@ -160,34 +163,34 @@ REST_FRAMEWORK={
     )
 }
 
-from datetime import timedelta
+
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES":(
+    "AUTH_HEADER_TYPES": (
         "Bearer",
         "JWT",
     ),
-    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=120),
-    'REFRESH_TOKEN_LIFETIME':timedelta(days=1),
-    'SIGNING_KEY':env("SECRET_KEY"),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'SIGNING_KEY': env("SECRET_KEY"),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
 DJOSER = {
-    "LOGIN_FIELD":"email",
-    "USER_CREATE_PASSWORD_RETYPE":True,
-    "SEND_CONFIRMATION_EMAIL":True,
-    "PASSWORD_CHANGED_EMAIL_CONFIRMATION":True,
+    "LOGIN_FIELD": "email",
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "SEND_CONFIRMATION_EMAIL": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
     'PASSWORD_RESET_CONFIRM_URL': '/password/reset/confirm/{uid}/{token}',
-    "SET_PASSWORD_RETYPE":True,
-    "PASSWORD_RESET_CONFIRM_RETYPE":True,
-    "ACTIVATION_URL":'activate/{uid}/{token}',
-    "SEND_ACTIVATION_EMAIL":True,
-    "SERIALIZERS":{
-        'user_create':'apps.users.serializers.CreateUserSerializer',
-        'user':'apps.users.serializers.UserSerializer',
-        'current_user':'apps.users.serializers.UserSerializer'
+    "SET_PASSWORD_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_RETYPE": True,
+    "ACTIVATION_URL": 'activate/{uid}/{token}',
+    "SEND_ACTIVATION_EMAIL": True,
+    "SERIALIZERS": {
+        'user_create': 'apps.users.serializers.CreateUserSerializer',
+        'user': 'apps.users.serializers.UserSerializer',
+        'current_user': 'apps.users.serializers.UserSerializer'
     }
 }
 
@@ -207,9 +210,6 @@ SITE_NAME = "Henry Real Estate"
 
 #django logging
 
-import logging
-import logging.config
-from django.utils.log import DEFAULT_LOGGING
 
 logger = logging.getLogger(__name__)
 
@@ -229,21 +229,21 @@ logging.config.dictConfig({
     },
     "handlers": {
         "console": {
-            "class":"logging.StreamHandler",
-            "formatter":"console"
+            "class": "logging.StreamHandler",
+            "formatter": "console"
         },
         "file": {
-            "level":"INFO",
-            "class":"logging.FileHandler",
-            "formatter":"file",
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "formatter": "file",
             "filename": "logs/real_estate.log"
         },
         "django.server": DEFAULT_LOGGING["handlers"]["django.server"]
     },
     "loggers": {
-        "":{"level":"INFO", "handlers":["console", "file"], "propagate":False},
-        "apps":{
-            "level":"INFO", "handlers":["console"], "propagate":False
+        "":{"level": "INFO", "handlers":["console", "file"], "propagate":False},
+        "apps": {
+            "level": "INFO", "handlers":["console"], "propagate":False
         },
         "django.server": DEFAULT_LOGGING["loggers"]["django.server"]
     }

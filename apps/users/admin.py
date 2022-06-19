@@ -1,35 +1,58 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin 
+from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
+
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import User
 
 
 class CustomUserAdmin(UserAdmin):
-    ordering = ['email']
+    ordering = ["email"]
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
-    list_display = ["pkid", "id", "email", "first_name", "last_name", "phone", "is_staff", "is_active"]
-    list_display_links = [ 'id', 'email']
-    list_filter = ['email', 'first_name', 'last_name']
+    list_display = [
+        "pkid",
+        "id",
+        "email",
+        "first_name",
+        "last_name",
+        "phone",
+        "is_staff",
+        "is_active",
+    ]
+    list_display_links = ["id", "email"]
+    list_filter = ["email", "first_name", "last_name"]
     fieldsets = (
         (
             _("Login Credentials"),
             {
-                "fields": ("email", "password",)
+                "fields": (
+                    "email",
+                    "password",
+                )
             },
         ),
         (
             _("Personal Information"),
             {
-                "fields": ("first_name", "last_name", "phone",)
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "phone",
+                )
             },
         ),
         (
-           _("Permission And Groups"),
+            _("Permission And Groups"),
             {
-                "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
             },
         ),
     )
@@ -38,7 +61,7 @@ class CustomUserAdmin(UserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2", "is_staff", "is_active")
+                "fields": ("email", "password1", "password2", "is_staff", "is_active"),
             },
         ),
     )
