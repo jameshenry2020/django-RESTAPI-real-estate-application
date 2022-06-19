@@ -1,0 +1,20 @@
+#.coveragerc to control coverage.py
+[run]
+source = .
+omit = denv/*
+    *manage.py
+    *urls.py,
+    *wsgi.py,
+    *asgi.py
+    *settings.py
+    *conftest.py
+    *real_estate/*
+    *migrations/*
+    *__pycache__/*
+    *tests/*
+    *denv/*
+
+
+[report]
+show_missing=True
+skip_covered=False
