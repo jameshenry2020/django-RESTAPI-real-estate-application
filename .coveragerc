@@ -1,16 +1,22 @@
 #.coveragerc to control coverage.py
+
 [run]
 source = .
-omit = denv/*
+omit = 
+    denv/*
+    *denv/bin/*
+    *denv/lib/*
     *manage.py
-    *urls.py,
-    *wsgi.py,
+    *urls.py
+    *wsgi.py
     *asgi.py
     *settings.py
     *conftest.py
     *real_estate/*
     *migrations/*
     *__pycache__/*
+    *__init__*
+    */site-packages/*
     *tests/*
     *denv/*
 
