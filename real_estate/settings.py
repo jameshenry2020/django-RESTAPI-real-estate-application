@@ -30,9 +30,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DJANGO_APPS = [
+    'django.contrib.contenttypes',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -46,6 +46,7 @@ THIRD_PARTY_APPS = [
      'phonenumber_field',
      'djoser',
      'rest_framework_simplejwt',
+     'djcelery_email',
 ]
 
 LOCAL_APPS = [
@@ -197,7 +198,7 @@ DJOSER = {
 
 
 #email backend configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 EMAIL_HOST= env("EMAIL_HOST")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
@@ -208,9 +209,13 @@ DOMAIN = env("DOMAIN")
 SITE_NAME = "Henry Real Estate"
 
 
+CELERY_BROKER_URL = env("CELERY_BROKER")
+CELERY_RESULT_BACKEND = env("CELERY_BACKEND")
+CELERY_TIMEZONE = "UTC"
+
+
+
 #django logging
-
-
 logger = logging.getLogger(__name__)
 
 LOG_LEVEL ="INFO"
